@@ -1,5 +1,5 @@
 name: @name@
-main: @groupId@.@name@.@name@
+main: nl.thedutchmc.alertbotwatch.Watch
 version: @version@
 author: @author@
 api-version: @apiVersion@

@@ -1,4 +1,4 @@
-package nl.thedutchmc.BaseBukkitPlugin;
+package nl.thedutchmc.alertbotwatch;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,19 +9,24 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class ConfigurationHandler {
 
+	public static String name;
+	public static int port;
+	
+	private Watch plugin;
+	
+	public ConfigurationHandler(Watch plugin) {
+		this.plugin = plugin;
+	}
+	
 	private File file;
 	private FileConfiguration config;
 	
-	public FileConfiguration getConfig() {
-		return config;
-	}
-	
 	public void loadConfig() {
-		file = new File(BaseBukkitPlugin.INSTANCE.getDataFolder(), "config.yml");
+		file = new File(plugin.getDataFolder(), "config.yml");
 		
 		if(!file.exists()) {
 			file.getParentFile().mkdirs();
-			BaseBukkitPlugin.INSTANCE.saveResource("config.yml", false);
+			plugin.saveResource("config.yml", false);
 		}
 		
 		config = new YamlConfiguration();
@@ -30,13 +35,14 @@ public class ConfigurationHandler {
 			config.load(file);
 			readConfig();
 		} catch (InvalidConfigurationException e) {
-			BaseBukkitPlugin.logWarn("Invalid config.yml!");
+			Watch.logWarn("Invalid config.yml!");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void readConfig() {
-		//Read the config here
+		name = config.getString("name");
+		port = config.getInt("port");
 	}
 }
